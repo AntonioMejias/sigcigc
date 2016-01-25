@@ -88,3 +88,12 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+Route::filter('authentication', function()
+{
+	if(!Session::has('user')){
+		Session::put('error', "Acceso denegado");
+		return Redirect::to('/cpanel');
+	}
+});

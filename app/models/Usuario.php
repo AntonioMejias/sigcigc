@@ -5,6 +5,8 @@ class Usuario extends Eloquent  {
 
 	protected $table = 'usuarios';
 
-	protected $primaryKey = 'usu_id';
+	protected $primaryKey = 'id_usuario';
+
+	public $timestamps = false;
 
 }

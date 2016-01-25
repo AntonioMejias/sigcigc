@@ -6,6 +6,7 @@
     <title>Ferrominera - SIGCIGC</title>
       @section('cabecera')
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <meta id="token" name="csrf-token" content="{{ csrf_token() }}">
         {{HTML::style("bootstrap/css/bootstrap.min.css")}}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -17,6 +18,14 @@
         <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
         <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
         <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
+        <style type="text/css">
+          .datepicker {
+
+            z-index:99999999 !important;
+          }
+        </style>
+        <link rel="stylesheet" href="plugins/jquery-ui/jquery-ui.css">
       @show
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -57,7 +66,7 @@
                   <li class="user-header">
                     <img src="dist/img/boxed-bg.png" class="img-circle" alt="User Image">
                     <p>
-                      Jessica Ladilla
+                      Jessica Abreo
                       <small>Administrador</small>
                     </p>
                   </li>
@@ -107,44 +116,32 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MENU PRINCIPAL</li>
-            <li><a href="#"><i class="fa fa-list"></i><span>Control de Asistencia</span></a></li>
+
+            <li><a href="#"><i class="fa fa-list"></i> <span>Control de Asistencia</span> <i class="fa fa-angle-left pull-right"></i></a>
+
+                <ul class="treeview-menu">
+                   <li><a href="{{URL::to('control_asistencia')}}"><i class="glyphicon glyphicon-triangle-right"></i></i>Visualizar Control</a></li>
+                   <li><a href="{{URL::to('anadir_asistencia')}}"><i class="glyphicon glyphicon-triangle-right"></i></i>Anadir Asistencia</a></li>
+                </ul>
+            </li>
 
             <li><a href="{{URL::to('vacaciones')}}"><i class="glyphicon glyphicon-calendar"></i> <span>Vacaciones</span></a></li>
             
-            <li><a href="{{URL::to('objetivogestion')}}"><i class="glyphicon glyphicon-file"></i> <span>Objetivo de Gestion</span></a></li>
-            
-            <li><a href="#"><i class="fa fa-dashboard"></i> <span>Control de Reservas</span></a></li>
-
-
-            <li><a href="#"><i class="fa fa-recycle"></i> <span>Ejecución Presupuestaria</span> <i class="fa fa-angle-left pull-right"></i></a>
+             <li><a href="#"><i class="glyphicon glyphicon-file"></i> <span>Objetivo de Gestion</span> <i class="fa fa-angle-left pull-right"></i></a>
 
                 <ul class="treeview-menu">
-                <li class="active"><a href="#"><i class="glyphicon glyphicon-triangle-right"></i>Presupuesto</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-triangle-right"></i>SOLPED</a></li>
-              </ul>
-
+                   <li><a href="{{URL::to('objetivogestion')}}"><i class="glyphicon glyphicon-triangle-right"></i></i>Visualizar</a></li>
+                   <li><a href="{{URL::to('anadir_objetivo_gestion')}}"><i class="glyphicon glyphicon-triangle-right"></i></i>Anadir</a></li>
+                </ul>
             </li>
-
-            <li><a href="#"><i class="fa fa-print"></i> <span>Informes</span> <i class="fa fa-angle-left pull-right"></i></a>
-
-              <ul class="treeview-menu">
-                <li class="active"><a href="#"><i class="glyphicon glyphicon-triangle-right"></i> Semanales</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-triangle-right"></i> Mensuales</a></li>
-              </ul>
-
-            </li>
-
-            <li><a href="#"><i class="fa fa-recycle"></i> <span>SISOA</span> <i class="fa fa-angle-left pull-right"></i></a>
+            
+            <li><a href="#"><i class="glyphicon glyphicon-list-alt"></i> <span>Informe Semanal</span> <i class="fa fa-angle-left pull-right"></i></a>
 
                 <ul class="treeview-menu">
-                <li class="active"><a href="#"><i class="glyphicon glyphicon-triangle-right"></i>EMISP</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-triangle-right"></i>6119</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-triangle-right"></i>Plan Ambiental</a></li>
-              </ul>
-
+                   <li><a href="{{URL::to('informe_semanal')}}"><i class="glyphicon glyphicon-triangle-right"></i></i>Visualizar</a></li>
+                   <li><a href="{{URL::to('anadir_informe')}}"><i class="glyphicon glyphicon-triangle-right"></i></i>Anadir</a></li>
+                </ul>
             </li>
-
-            
 
              <li><a href="#"><i class="fa fa-wrench"></i> <span>Opciones</span> <i class="fa fa-angle-left pull-right"></i></a>
 
@@ -192,11 +189,18 @@
 
     </div><!-- ./wrapper -->
 
+      @section('modal')
+
+       @show
+
     {{HTML::script("plugins/jQuery/jQuery-2.1.4.min.js")}}
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <script>
       $.widget.bridge('uibutton', $.ui.button);
     </script>
+    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="plugins/datepicker.js"></script>
+    <script src="js/picker.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="plugins/morris/morris.min.js"></script>
@@ -213,5 +217,6 @@
     <script src="dist/js/app.min.js"></script>
     <script src="dist/js/pages/dashboard.js"></script>
     <script src="dist/js/demo.js"></script>
+    <script src="js/custom.js"></script>
   </body>
 </html>
